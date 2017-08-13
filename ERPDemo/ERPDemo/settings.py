@@ -36,7 +36,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ramlalfff@gmail.com'#email of sender
-EMAIL_HOST_PASSWORD = 'unbeaten'# password of sender
+EMAIL_HOST_PASSWORD = ''# password of sender
 EMAIL_PORT = 587
 ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_AUTHENTICATION_METHOD ='username_email'
@@ -45,7 +45,7 @@ ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL='/accounts/login/'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 ACCOUNT_EMAIL_CONFIRMATION_HMAC=True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Leave Application: '
 DEFAULT_FROM_EMAIL = 'ramlalfff@gmail.com'
 SERVER_EMAIL = 'ramlalfff@gmail.com'
@@ -56,6 +56,8 @@ ACCOUNT_USERNAME_MIN_LENGTH = 3
 # Application definition
 
 INSTALLED_APPS = [
+    'leaveapplication.apps.LeaveapplicationConfig',
+    'user_profile.apps.UserProfileConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,9 +65,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth',
 ]
 
 MIDDLEWARE = [
@@ -83,7 +85,7 @@ ROOT_URLCONF = 'ERPDemo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['/', 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
