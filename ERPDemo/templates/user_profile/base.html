@@ -1,0 +1,33 @@
+{% load static %}
+<html>
+  <head>
+    <title>{% block title %} {% endblock %} </title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' type='text/css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js' type='text/javascript'> </script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javaScript'> </script>
+    <link href='{% static "user_profile/css/base.css" %}' type='text/css' rel='stylesheet' />
+    {% block css %} {% endblock %}
+    {% block js %} {% endblock %}
+  <head>
+  <body>
+    <!-- <div class='navigation'>
+      <div class='name'> Fusion </div>
+    </div> -->
+    <nav class="navbar navbar-inverse navbar-custom">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/home/">Fusion</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/home/">Home</a></li>
+          <li><a href="#">Notifications <span class='badge' id='count_notifications'> 0 </span></a></li>
+          <li><a href="#">Application Requests <span class='badge' id='count_applications'> 0 </span></a></li>
+          <li><a href="#">Settings</a></li>
+          <li> <a href='/accounts/logout'>Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+  </body>
+</html>

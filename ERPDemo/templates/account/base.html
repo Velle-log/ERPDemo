@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>{% block head_title %}{% endblock %}</title>
-    <link href='{% static 'user_profile/css/base.css' %}' type='text/css' rel='stylesheet' />
+    <link href='{% static "user_profile/css/auth_base.css" %}' type='text/css' rel='stylesheet' />
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' type='text/css' rel='stylesheet' />
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js' type='text/javascript'> </script>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javaScript'> </script>
@@ -15,7 +15,7 @@
     {% block body %}
 
     {% if messages %}
-    <div>
+    <div class='alert alert-success message'>
       <strong>Messages:</strong>
       <ul>
 	{% for message in messages %}

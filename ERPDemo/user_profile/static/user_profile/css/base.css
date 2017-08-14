@@ -1,12 +1,28 @@
-.main-menu{
-  margin-top:20%;
-  margin-left:20%;
+/*.navigation{
+  width: auto;
+  height: 40px;
+  background-color: #10274c;
+  text-rendering: geometricPrecision;
+  box-shadow: 10px 10px 5px red;
 }
 
-.log-in{
-  margin-top:10%;
+.name{
+  font-size: 40px;
+  font-weight: bolder;
+  padding-bottom: 0%;
+  padding-left: 30px;
+  color: white;
+  position: absolute;
+}*/
+
+.navbar-custom{
+  background-color: #10274c;
+  border-radius: 1px;
 }
 
-#id_remember{
-  margin-left: 30%;
+.navbar-brand{
+  font-size: 30px;
+  font-weight: bolder;
+  color: white;
+  position: static;
 }
