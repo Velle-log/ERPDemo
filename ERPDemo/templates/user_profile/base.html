@@ -6,6 +6,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js' type='text/javascript'> </script>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' type='text/javaScript'> </script>
     <link href='{% static "user_profile/css/base.css" %}' type='text/css' rel='stylesheet' />
+    <script src='{% static "user_profile/js/leave.js" %}' type='text/javascript'> </script>
     {% block css %} {% endblock %}
     {% block js %} {% endblock %}
   <head>
@@ -21,13 +22,42 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="/home/">Home</a></li>
           <li><a href="#">Notifications <span class='badge' id='count_notifications'> 0 </span></a></li>
-          <li><a href="#">Application Requests <span class='badge' id='count_applications'> 0 </span></a></li>
+          <li><a href="#" id='leaverequests'>Application Requests <span class='badge' id='count_applications'> 0 </span></a></li>
           <li><a href="#">Settings</a></li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li> <a href='{% url "user_profile:profile" username=request.user.username %}'> Profile </a>
           <li> <a href='/accounts/logout'>Logout</a></li>
         </ul>
       </div>
     </nav>
-    {% block content %}
-    {% endblock %}
+    <div class='col-lg-4 sidebar'>
+      <div class='list-group'>
+         <a href="#" class='list-group-item' id='applyleave'> Apply For Leave </a>
+         <a href="#" class='list-group-item'> Module 2 </a>
+         <a href="#" class='list-group-item'> Module 3 </a>
+         <a href="#" class='list-group-item'> Module 4 </a>
+         <a href="#" class='list-group-item'> Module 5 </a>
+         <a href="#" class='list-group-item'> Module 6 </a>
+      </div>
+    </div>
+    <!-- <div class='col-xs-4'>  </div> -->
+    <div class = 'col-lg-4 content' id='content'>
+      {% block content %}
+      {% endblock %}
+      <div id='message'>
+        {% if messages %}
+          <div class='alert alert-success message'>
+            <strong>Messages:</strong>
+            <ul>
+              {% for message in messages %}
+              <li>{{message}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+    </div>
+    </div>
   </body>
 </html>

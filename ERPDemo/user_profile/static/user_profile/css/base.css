@@ -26,3 +26,22 @@
   color: white;
   position: static;
 }
+
+.sidebar{
+  width: 20%;
+  height: 100%;
+  position: fixed;
+}
+
+.content{
+  margin-left: 20%;
+}
+
+
+/*
+.sidebar li{
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: red;
+  margin-top: 10px;
+}*/

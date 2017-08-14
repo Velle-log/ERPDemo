@@ -1,0 +1,11 @@
+{% extends 'user_profile/base.html' %}
+{% load static %}
+
+{% block title %} {{ user.first_name }} {{ user.last_name }} - Fusion {% endblock %}
+
+{% block css %} {% endblock %}
+{% block js %} {% endblock %}
+
+{% block content %}
+This is {{ user.first_name }}'s profile.
+{% endblock %}

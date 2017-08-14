@@ -13,18 +13,18 @@
   </head>
   <body>
     {% block body %}
-
-    {% if messages %}
-    <div class='alert alert-success message'>
-      <strong>Messages:</strong>
-      <ul>
-	{% for message in messages %}
-	<li>{{message}}</li>
-	{% endfor %}
-      </ul>
+    <div id='message'>
+      {% if messages %}
+        <div class='alert alert-success message'>
+          <strong>Messages:</strong>
+          <ul>
+        	  {% for message in messages %}
+        	    <li>{{message}}</li>
+        	  {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
     </div>
-    {% endif %}
-
     <div class='main-menu col-sm-4'>
       <strong>Menu:</strong>
       <ul>

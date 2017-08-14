@@ -1,6 +1,7 @@
 .main-menu{
   margin-top:20%;
   margin-left:20%;
+  transition: 2s;
 }
 
 .log-in{
