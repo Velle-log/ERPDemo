@@ -1,0 +1,28 @@
+{% load static %}
+<div class='panel panel-default'>
+  <div class='panel-heading'>
+    <center> <h2>Leave Application Form </h2></center>
+  </div>
+  <div class='panel-body'>
+    {% if form %}
+      <form class='form-horizontal' method='post' action='/leave/apply'>
+        {% csrf_token %}
+
+          {% for field in form %}
+            <div class='form-group'>
+              <div class='col-sm-4'>
+                {{ field.label_tag }}
+              </div>
+              <div class='col-sm-8'>
+                {{ field }}
+              </div>
+            </div>
+          {% endfor %}
+          <center> <button type='submit' class='btn btn-block btn-primary'> Apply </button> <center>
+      </from>
+    {% else %}
+      <div class='alert alert-success'>
+        <h4> Application Successfully Submitted </h4>
+      </div>
+    {% endif %}
+  </div>

@@ -9,10 +9,18 @@ CHOICES = (
     ('student', 'student'),
 )
 
+class Department(models.Model):
+    department_name = models.CharField(default='None', unique=True, max_length=50)
+
+    def __str__(self):
+        return self.department_name
+
 class ExtraInfo(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, null=True, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=20, choices=CHOICES)
+    pf_number = models.IntegerField(default=0, unique=True)
 
     def __str__(self):
         return '{}: {}'.format(self.user.username, self.user_type)
@@ -31,8 +39,8 @@ class Designation(models.Model):
         return '{}: {}'.format(self.designation, self.user_type)
 
 class Designated(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    designation = models.OneToOneField(Designation, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}: {}'.format(self.user.username, self.designation.designation)

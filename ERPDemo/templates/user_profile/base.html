@@ -14,6 +14,16 @@
     <!-- <div class='navigation'>
       <div class='name'> Fusion </div>
     </div> -->
+    {% if messages %}
+      <div class='alert alert-success message'>
+        <strong>Messages:</strong>
+        <ul>
+          {% for message in messages %}
+          <li>{{message}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
     <nav class="navbar navbar-inverse navbar-custom">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -46,18 +56,6 @@
     <div class = 'col-lg-4 content' id='content'>
       {% block content %}
       {% endblock %}
-      <div id='message'>
-        {% if messages %}
-          <div class='alert alert-success message'>
-            <strong>Messages:</strong>
-            <ul>
-              {% for message in messages %}
-              <li>{{message}}</li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
-    </div>
     </div>
   </body>
 </html>
