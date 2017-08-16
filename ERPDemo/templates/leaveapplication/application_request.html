@@ -1,16 +1,41 @@
 {% for application in applications %}
-<div class="form-group">
-  <label class="col-md-4 control-label" for="approvereject">{{ application.user.username }} -{{application.leave.type_of_leave}}</label>
-  <div class="col-md-8">
-    <button name="approve" class="btn btn-success" data="{{ application.id }}" id="approve">Approve</button>&emsp;
-   	{% if request.user.designation %}
-   		{% if request.user.designation.designation.designation in ['HOD', 'Registrar'] %}
-    		<button name="forward" class="btn btn-primary" data="{{ application.id }}" id="forward">Forward</button>&emsp;
-    	{% endif %}
-    {% endif %}
-    <button name="reject" class="btn btn-danger" data="{{ application.id }}" id="reject">Reject</button>
-  </div>
+<div id='request-box-{{ application.id }}'>
+	<div class='container-fluid' style='background-color: rgba(110,110,110,0.3); padding:7px; border-radius: 3px;'>
+		<button class="form-group col-md-12" data-toggle="collapse" data-target="#demo-{{ application.id }}" style="background-color: rgba(0,0,0,0); border: solid 0px; padding: 0px; margin:5px;">
+			<strong>
+			  {{ application.user.first_name }} {{ application.user.last_name }} has applied for {{ application.leave.type_of_leave }} leave
+		  	</strong>
+		  	<br>
+		</button>
+	 <div id='demo-{{ application.id }}' class = 'collapse'>
+		<center>
+		<strong style="display: inline;">from: </strong>
+		<p style="display: inline;">{{application.leave.start_date}}</p>
+		<strong style="display: inline;">to: </strong>
+		<p style="display: inline;">{{application.leave.end_date}}</p>
+		</center>
+		<br>
+		<strong style="display: inline;">Leave Address: </strong>
+		<p style="display: inline;">{{application.leave.leave_address}}</p>
+		<br>
+		<strong style="display: inline;">Purpose: </strong>
+		<p style="display: inline;">{{application.leave.purpose}}</p>
+		<br>
+	 </div>
+	 <br>
+	  <div class="col-md-12">
+		  <center>
+		    <button name="approve" class="btn btn-success" data="{{ application.id }}" id="approve">Approve</button>&emsp;
+		   	{% if request.user.designation %}
+		   		{% if request.user.designation.designation.designation == 'HOD' or request.user.designation.designation.designation == 'Registrar' %}
+		    		<button name="forward" class="btn btn-primary" data="{{ application.id }}" id="forward" style="">Forward</button>&emsp;
+		    	{% endif %}
+		    {% endif %}
+		    <button name="reject" class="btn btn-danger" data="{{ application.id }}" id="reject">Reject</button>
+		  </center>
+	  </div>
+	</div>
+	<br>
+	<br>
 </div>
-<br>
-<br>
 {% endfor %}

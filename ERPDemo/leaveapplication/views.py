@@ -17,7 +17,7 @@ from django.shortcuts import get_object_or_404
 @login_required(login_url='/accounts/login')
 def get_applications(request):
     if request.user.application_request.all().count() != 0:
-        applications = request.user.application_request.all()
+        applications = request.user.application_request.all().order_by('-id')
         return render(request, 'leaveapplication/application_request.html', {'user': request.user, 'applications':applications})
     return HttpResponse('No Pending Requests')
 
@@ -81,7 +81,7 @@ def process_request(request, id):
                                 designation.designation == 'Registrar'                                  \
                                 and processing_status == 'Registrar'                                    \
                             )
-
+                # print(condition)
                 if condition:
                     application.leave.application_status = 'accepted'
                     application.leave.save()

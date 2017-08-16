@@ -32,15 +32,16 @@ $(document).ready(function(){
     });
   });
 
-
+var done = "<div class='bs-example'><div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Success!</strong>"
+var done2 = " </div></div>"
   $(document).on('click', '#approve' ,function(event){
-      console.log('captured !');
+      var element = $(this);
       $.ajax({
         type: 'get',
         // url: '/leave/approve/'+$(this).attr('data'),
         url: '/leave/process_request/' + $(this).attr('data') + '/?action=accept',
         success: function(data){
-          $('#content').html(data);
+          $('#request-box-'+element.attr('data')).html(done+data+done2);
         },
         error: function(error){
           alert('Error:\n' + error);
@@ -49,13 +50,13 @@ $(document).ready(function(){
     });
 
   $(document).on('click', '#reject' ,function(event){
-      console.log('captured !');
+      var element = $(this);
       $.ajax({
         type: 'get',
         // url: '/leave/reject/'+$(this).attr('data'),
         url: '/leave/process_request/' + $(this).attr('data') + '/?action=reject',
         success: function(data){
-          $('#content').html(data);
+          $('#request-box-'+element.attr('data')).html(done+data+done2);
         },
         error: function(error){
           alert('Error:\n' + error);
@@ -64,13 +65,13 @@ $(document).ready(function(){
     });
 
   $(document).on('click', '#forward' ,function(event){
-      console.log('captured !');
+      var element = $(this);
       $.ajax({
         type: 'get',
         // url: '/leave/forward/'+$(this).attr('data'),
         url: '/leave/process_request/' + $(this).attr('data') + '/?action=forward',
         success: function(data){
-          $('#content').html(data);
+          $('#request-box-'+element.attr('data')).html(done+data+done2);
         },
         error: function(error){
           alert('Error:\n' + error);
