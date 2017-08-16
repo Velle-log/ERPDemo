@@ -1,3 +1,14 @@
+def leave_count(start_date, end_date):
+	days = (end_date - start_date).days + 1
+	start = start_date.weekday()
+	leave_count = 0
+	for i in range(start, start+days):
+		if (i%7)==5 or (i%7)==6:
+			leave_count = leave_count+1
+
+	return days-int(leave_count)
+
+
 
 def valid_leave_application():
     pass
