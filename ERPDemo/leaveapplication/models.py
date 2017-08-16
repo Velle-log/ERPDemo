@@ -42,10 +42,22 @@ class Leave(models.Model):
     leave_address = models.CharField(max_length=100, blank=True)
     processing_status = models.CharField(max_length=20, default='hod', choices=PROCESSING_BY_CHOICES)
     application_status = models.CharField(max_length=20, default='processing', choices=APPLICATION_STATUSES)
+    
+    def __str__(self):
+        return '{} - {}'.format(self.applicant.username, self.type_of_leave)
+
+    def save(self, *args, **kwargs):
+        if(self.applicant != self.replacing_user):
+            if(self.start_date <= self.end_date):
+                super(Leave, self).save(*args, **kwargs)
+            else:
+                raise Exception("Start Date should be less than(or equal to) the End Date")
+        else:
+            raise Exception("User and Replacing User must be different")
 
 
 class RemainingLeaves(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='remaining_leaves')
     casual = models.IntegerField(default=30)
     vacation = models.IntegerField(default=60)
     commuted = models.IntegerField(default=10)
@@ -59,3 +71,15 @@ class RemainingLeaves(models.Model):
 def create_remaining_leaves(sender, instance, created, **kwargs):
     if created and instance.extrainfo.user_type != 'student':
         RemainingLeaves.objects.create(user=instance)
+
+
+class ApplicationRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requested_applications")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="application_request")
+    leave = models.ForeignKey(Leave, on_delete=models.CASCADE, related_name='pending_requests')
+
+    def save(self, *args, **kwargs):
+        if(self.user != self.recipient):
+            super(ApplicationRequest, self).save(*args, **kwargs)
+        else:
+            raise Exception("User and Replacing User must be different")

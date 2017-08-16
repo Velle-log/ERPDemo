@@ -1,5 +1,11 @@
 $(document).ready(function(){
-  $('.message').fadeOut(4000);
+  setTimeout(function(){
+    $('.message').fadeOut(2000, function(){
+      $('.main-menu').animate({
+        bottom: '+=40'
+      }, 500);
+    });
+  }, 2000);
   $('#leaverequests').on('click', function(){
     $.ajax({
       type: 'get',
@@ -25,6 +31,21 @@ $(document).ready(function(){
       },
     });
   });
+
+
+  $(document).on('click', '#approve' ,function(event){
+      console.log('captured !');
+      $.ajax({
+        type: 'get',
+        url: '/leave/approve/'+$(this).attr('data'),
+        success: function(data){
+          $('#content').html(data);
+        },
+        error: function(error){
+          alert('Error:\n' + error);
+        },
+      });
+    });
 
   // $(document).on('click', '#apply', function(e){
   //   e.preventDefault();

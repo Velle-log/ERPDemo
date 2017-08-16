@@ -12,7 +12,7 @@ class SignupForm(forms.Form):
         ('student', 'Student'),
     )
 
-
+    unique_id = forms.IntegerField(widget=forms.TextInput(attrs={'max_length': 10, 'class': 'form-control', 'placeholder': 'Roll No. OR PF No.'}), label='Unique ID')
     department = forms.ChoiceField(widget=forms.widgets.Select(attrs={'class': 'form-control'}), choices=DEPARTMENTS)
     first_name = forms.CharField(widget=forms.TextInput(attrs={'max_length': 30, 'class': 'form-control', 'placeholder': 'First Name'}), label='First Name')
     last_name = forms.CharField(widget=forms.TextInput(attrs={'max_length': 50, 'class': 'form-control', 'placeholder': 'Last Name'}), label='Last Name')

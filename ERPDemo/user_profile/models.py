@@ -17,10 +17,10 @@ class Department(models.Model):
 
 class ExtraInfo(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='details')
     department = models.ForeignKey(Department, null=True, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=20, choices=CHOICES)
-    pf_number = models.IntegerField(default=0, unique=True)
+    pf_number = models.IntegerField(unique=True)
 
     def __str__(self):
         return '{}: {}'.format(self.user.username, self.user_type)
@@ -39,7 +39,7 @@ class Designation(models.Model):
         return '{}: {}'.format(self.designation, self.user_type)
 
 class Designated(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='designation')
     designation = models.OneToOneField(Designation, on_delete=models.CASCADE)
 
     def __str__(self):
