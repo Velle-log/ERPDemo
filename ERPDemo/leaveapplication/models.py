@@ -8,19 +8,19 @@ from user_profile.models import Department
 
 LEAVE_CHOICE = (
 
-    ('casual', 'casual'),
-    ('vacation', 'vacation'),
-    ('commuted', 'commuted'),
-    ('special casual', 'special casual'),
-    ('restricted', 'restricted'),
-    ('station leave', 'station leave'),
+    ('casual', 'Casual Leave'),
+    ('vacation', 'Vacation Leave'),
+    ('commuted', 'Commuted Leave'),
+    ('special_casual', 'Special Casual Leave'),
+    ('restricted', 'Restricted Leave'),
+    ('station', 'Station Leave'),
 
 )
 
 PROCESSING_BY_CHOICES = (
-    ('rep user', 'rep user'),
-    ('hod', 'Head Of Department'),
-    ('director', 'Director')
+    ('rep user', 'Replacing User'),
+    ('HOD', 'Head Of Department'),
+    ('Director', 'Director')
 
 )
 
@@ -35,7 +35,7 @@ APPLICATION_STATUSES = (
 class Leave(models.Model):
     applicant = models.ForeignKey(User, related_name='applied_for', on_delete=models.CASCADE)
     replacing_user = models.ForeignKey(User, related_name='replaced_for', on_delete=models.CASCADE)
-    type_of_leave = models.CharField(max_length=20, choices=LEAVE_CHOICE)
+    type_of_leave = models.CharField(max_length=20, choices=LEAVE_CHOICE, default='station')
     applied_time = models.DateTimeField(auto_now=True)
     start_date = models.DateField()
     end_date = models.DateField()

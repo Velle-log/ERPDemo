@@ -37,7 +37,38 @@ $(document).ready(function(){
       console.log('captured !');
       $.ajax({
         type: 'get',
-        url: '/leave/approve/'+$(this).attr('data'),
+        // url: '/leave/approve/'+$(this).attr('data'),
+        url: '/leave/process_request/' + $(this).attr('data') + '/?action=accept',
+        success: function(data){
+          $('#content').html(data);
+        },
+        error: function(error){
+          alert('Error:\n' + error);
+        },
+      });
+    });
+
+  $(document).on('click', '#reject' ,function(event){
+      console.log('captured !');
+      $.ajax({
+        type: 'get',
+        // url: '/leave/reject/'+$(this).attr('data'),
+        url: '/leave/process_request/' + $(this).attr('data') + '/?action=reject',
+        success: function(data){
+          $('#content').html(data);
+        },
+        error: function(error){
+          alert('Error:\n' + error);
+        },
+      });
+    });
+
+  $(document).on('click', '#forward' ,function(event){
+      console.log('captured !');
+      $.ajax({
+        type: 'get',
+        // url: '/leave/forward/'+$(this).attr('data'),
+        url: '/leave/process_request/' + $(this).attr('data') + '/?action=forward',
         success: function(data){
           $('#content').html(data);
         },

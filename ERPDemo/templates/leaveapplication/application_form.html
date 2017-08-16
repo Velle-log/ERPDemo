@@ -5,9 +5,13 @@
   </div>
   <div class='panel-body'>
     {% if form %}
-      {% if form.errors %}
+      {% if errors %}
         <div class='alert alert-danger'>
-          {{ form.errors }}
+          <ul class='list-group'>
+            {% for error in errors %}
+              <li class='list-group-item'> {{ error }} </li>
+            {% endfor %}
+          </ul>
         </div>
       {% endif %}
       <form class='form-horizontal' method='post' action='/leave/apply'>

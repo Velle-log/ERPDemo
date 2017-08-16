@@ -3,6 +3,11 @@
   <label class="col-md-4 control-label" for="approvereject">{{ application.user.username }} -{{application.leave.type_of_leave}}</label>
   <div class="col-md-8">
     <button name="approve" class="btn btn-success" data="{{ application.id }}" id="approve">Approve</button>&emsp;
+   	{% if request.user.designation %}
+   		{% if request.user.designation.designation.designation == 'HOD' %}
+    		<button name="forward" class="btn btn-primary" data="{{ application.id }}" id="forward">Forward</button>&emsp;
+    	{% endif %}
+    {% endif %}
     <button name="reject" class="btn btn-danger" data="{{ application.id }}" id="reject">Reject</button>
   </div>
 </div>
