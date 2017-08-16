@@ -4,7 +4,7 @@
   <div class="col-md-8">
     <button name="approve" class="btn btn-success" data="{{ application.id }}" id="approve">Approve</button>&emsp;
    	{% if request.user.designation %}
-   		{% if request.user.designation.designation.designation == 'HOD' %}
+   		{% if request.user.designation.designation.designation in ['HOD', 'Registrar'] %}
     		<button name="forward" class="btn btn-primary" data="{{ application.id }}" id="forward">Forward</button>&emsp;
     	{% endif %}
     {% endif %}

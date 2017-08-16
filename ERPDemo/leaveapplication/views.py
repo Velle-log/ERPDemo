@@ -89,10 +89,15 @@ def process_request(request, id):
 
         else:
             designation = request.user.designation.designation
-            condition = designation.designation == 'HOD'                                        \
+            condition = (designation.designation == 'HOD'                                        \
                         and request.user.details.department == required_departement             \
-                        and processing_status == 'HOD'
-            print(designation.designation, request.user.details.department, required_departement, processing_status)
+                        and processing_status == 'HOD')                                          \
+                        or                                                                      \
+                        (                                                                       \
+                            designation.designation == 'Registrar'                              \
+                            and processing_status == 'Registrar'                                \
+                        )
+
             if condition:
                 designation = Designation.objects.get(designation='Director')
                 next_recipient = Designated.objects.get(designation=designation).user
