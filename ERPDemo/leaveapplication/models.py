@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from user_profile.models import ExtraInfo
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from user_profile.models import Department
@@ -17,7 +18,7 @@ LEAVE_CHOICE = (
 )
 
 PROCESSING_BY_CHOICES = (
-
+    ('rep user', 'rep user'),
     ('hod', 'Head Of Department'),
     ('director', 'Director')
 
@@ -40,9 +41,9 @@ class Leave(models.Model):
     end_date = models.DateField()
     purpose = models.CharField(max_length=500, blank=False)
     leave_address = models.CharField(max_length=100, blank=True)
-    processing_status = models.CharField(max_length=20, default='hod', choices=PROCESSING_BY_CHOICES)
+    processing_status = models.CharField(max_length=20, default='rep user', choices=PROCESSING_BY_CHOICES)
     application_status = models.CharField(max_length=20, default='processing', choices=APPLICATION_STATUSES)
-    
+
     def __str__(self):
         return '{} - {}'.format(self.applicant.username, self.type_of_leave)
 
@@ -55,6 +56,19 @@ class Leave(models.Model):
         else:
             raise Exception("User and Replacing User must be different")
 
+class ApplicationRequest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requested_applications")
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="application_request")
+    leave = models.ForeignKey(Leave, on_delete=models.CASCADE, related_name='pending_requests')
+
+    def save(self, *args, **kwargs):
+        if(self.user != self.recipient):
+            super(ApplicationRequest, self).save(*args, **kwargs)
+        else:
+            raise Exception("User and Replacing User must be different")
+
+    def __str__(self):
+        return '{}: {}'.format(self.user.username, self.leave.type_of_leave)
 
 class RemainingLeaves(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='remaining_leaves')
@@ -67,19 +81,7 @@ class RemainingLeaves(models.Model):
     def __str__(self):
         return '{} has {} casual leaves left'.format(self.user.username, self.casual)
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=ExtraInfo)
 def create_remaining_leaves(sender, instance, created, **kwargs):
-    if created and instance.extrainfo.user_type != 'student':
-        RemainingLeaves.objects.create(user=instance)
-
-
-class ApplicationRequest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="requested_applications")
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name="application_request")
-    leave = models.ForeignKey(Leave, on_delete=models.CASCADE, related_name='pending_requests')
-
-    def save(self, *args, **kwargs):
-        if(self.user != self.recipient):
-            super(ApplicationRequest, self).save(*args, **kwargs)
-        else:
-            raise Exception("User and Replacing User must be different")
+    if created and instance.user_type != 'student':
+        RemainingLeaves.objects.create(user=instance.user)

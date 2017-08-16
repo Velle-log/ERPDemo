@@ -21,8 +21,9 @@ class SignupForm(forms.Form):
     def signup(self, request, user):
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
-        user.extrainfo.department = Department.objects.get(
+        user.details.department = Department.objects.get(
                     department_name=request.POST.get('department'))
-        user.extrainfo.user_type = request.POST.get('user_status')
-        user.extrainfo.save()
+        user.details.user_type = request.POST.get('user_status')
+        user.details.pf_number = request.POST.get('unique_id')
+        user.details.save()
         user.save()

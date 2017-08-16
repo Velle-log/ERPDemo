@@ -5,6 +5,11 @@
   </div>
   <div class='panel-body'>
     {% if form %}
+      {% if form.errors %}
+        <div class='alert alert-danger'>
+          {{ form.errors }}
+        </div>
+      {% endif %}
       <form class='form-horizontal' method='post' action='/leave/apply'>
         {% csrf_token %}
 
