@@ -10,7 +10,7 @@ from user_profile.models import Designated, Designation
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-
+from .helpers import leave_count
 # Create your views here.
 
 #To get all the application requests pending for the current user
@@ -21,7 +21,19 @@ def get_applications(request):
         return render(request, 'leaveapplication/application_request.html', {'user': request.user, 'applications':applications})
     return HttpResponse('No Pending Requests')
 
+@login_required(login_url='/accounts/login')
+def notifications(request):
+    return HttpResponse(request.user.application_request.count())
 
+@login_required(login_url='/accounts/login')
+def get_leaves(request):
+    try:
+        leaves = request.user.applied_for.order_by('-id')
+    except Exception as e:
+        return HttpResponse(str(e))
+    if leaves.count()==0:
+        return HttpResponse('No Leave History !')
+    return render(request, 'leaveapplication/leaves.html', {'user':request.user, 'leaves': leaves})
 
 @login_required(login_url='/accounts/login')
 def process_request(request, id):
@@ -84,10 +96,16 @@ def process_request(request, id):
                 # print(condition)
                 if condition:
                     application.leave.application_status = 'accepted'
+                    type_of_leave = application.leave.type_of_leave    
+                    rem_leave_obj = RemainingLeaves.objects.get(user = application.user)
+                    remaining_leaves = getattr(rem_leave_obj, type_of_leave, 500)
+                    count = leave_count(application.leave.start_date, application.leave.end_date)
+                    setattr(rem_leave_obj, type_of_leave, remaining_leaves-count)
+                    rem_leave_obj.save()
                     application.leave.save()
                     application.delete()
 
-        else:
+        elif to_do=='forward':
             designation = request.user.designation.designation
             condition = (designation.designation == 'HOD'                                        \
                         and request.user.details.department == required_departement             \
@@ -108,8 +126,17 @@ def process_request(request, id):
 
             else:
                 return HttpResponse('You are not allowed to do this')
+        
+        elif to_do == 'delete':
+            if request.user == application.user:
+                print('hey')
+                leave = application.leave
+                leave.delete()
+                return HttpResponse(' Application deleted')
+            else:
+                return HttpResponse('Not allowed')
 
-        return HttpResponse('Done')
+        return HttpResponse(' Done')
 
 
 @login_required(login_url='/accounts/login')

@@ -19,6 +19,46 @@ $(document).ready(function(){
     });
   });
 
+  $('#leaves').on('click', function(){
+    $.ajax({
+      type: 'get',
+      url: '/leave/getleaves',
+      success: function(data){
+        $('#content').html(data);
+      },
+      error: function(error){
+        alert(error);
+      },
+    });
+  });
+
+  var m1 = "<div class='alert alert-success message'><strong>Messages:</strong><ul><li>You recieved a new Application Request</li></ul></div>";
+
+  window.setInterval(function(){
+    $.ajax({
+      type: 'get',
+      url: '/leave/notifications/',
+      success: function(data){
+        var pdata= $('#count_applications').text();
+        // console.log(pdata.parseInt() ==data.parseInt());
+        if(parseInt(pdata) < parseInt(data))
+        {
+          $('#message-box').html(m1);
+          setTimeout(function(){
+            $('.message').fadeOut(2000, function(){
+              $('.main-menu').animate({
+                bottom: '+=40'
+              }, 500);
+            });
+          }, 2000);
+        }
+        $('#count_applications').html(data);
+      },
+      error: function(error){
+      },
+    });
+  }, 5000);
+
   $('#applyleave').on('click', function(){
     $.ajax({
       type: 'get',
@@ -32,7 +72,7 @@ $(document).ready(function(){
     });
   });
 
-var done = "<div class='bs-example'><div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Success!</strong>"
+var done = "<div class='bs-example'><div class='alert alert-success fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Success!</strong> "
 var done2 = " </div></div>"
   $(document).on('click', '#approve' ,function(event){
       var element = $(this);
@@ -72,6 +112,24 @@ var done2 = " </div></div>"
         url: '/leave/process_request/' + $(this).attr('data') + '/?action=forward',
         success: function(data){
           $('#request-box-'+element.attr('data')).html(done+data+done2);
+        },
+        error: function(error){
+          alert('Error:\n' + error);
+        },
+      });
+    });
+
+  $(document).on('click', '#delete' ,function(event){
+      var element = $(this);
+      $.ajax({
+        type: 'get',
+        // url: '/leave/forward/'+$(this).attr('data'),
+        url: '/leave/process_request/' + $(this).attr('data') + '/?action=delete',
+        success: function(data){
+          if(data=='done')
+          {
+          $('#leave-box-'+element.attr('data')).html(done+data+done2);
+        }
         },
         error: function(error){
           alert('Error:\n' + error);

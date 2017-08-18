@@ -1,0 +1,37 @@
+{% for leave in leaves %}
+<div id='leave-box-{{ leave.id }}'>
+	<div class='container-fluid' style='background-color: rgba(110,110,110,0.3); padding:7px; border-radius: 3px;'>
+		<button class="form-group col-md-12" data-toggle="collapse" data-target="#demo-{{ leave.id }}" style="background-color: rgba(0,0,0,0); border: solid 0px; padding: 0px; margin:5px;">
+			<strong>
+			  #{{ leave.id }}: {{ leave.type_of_leave }} leave
+		  	</strong>
+		  	Applied on: {{ leave.applied_time }}
+		  	<br>
+		</button>
+	 <div id='demo-{{ leave.id }}' class = 'collapse'>
+		<center>
+		<strong style="display: inline;">from: </strong>
+		<p style="display: inline;">{{leave.start_date}}</p>
+		<strong style="display: inline;">to: </strong>
+		<p style="display: inline;">{{leave.end_date}}</p>
+		</center>
+		<br>
+		<strong style="display: inline;">Leave Address: </strong>
+		<p style="display: inline;">{{leave.leave_address}}</p>
+		<br>
+		<strong style="display: inline;">Purpose: </strong>
+		<p style="display: inline;">{{leave.purpose}}</p>
+		<br>
+		<strong style="display: inline;">Status: </strong>
+		<p style="display: inline;">{{leave.application_status }} by {{ leave.processing_status }}</p>
+		<br>
+	 </div>
+	 {% if leave.application_status == 'processing' %}
+	 <button name="delete" class="btn btn-danger" data="{{ leave.id }}" id="delete">Delete</button>
+	 {% endif %}
+	 <br>
+	</div>
+	<br>
+	<br>
+</div>
+{% endfor %}
